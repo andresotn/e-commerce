@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alura Geek</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #282c34;
+            color: white;
+        }
+        /* Adicione mais estilos conforme necessário */
+    </style>
+</head>
+<body>
+    <h1>Alura Geek</h1>
+    <form id="formProduto">
+        <input type="text" name="nome" placeholder="Nome do Produto" required>
+        <input type="number" name="preco" placeholder="Preço" required>
+        <button type="submit">Adicionar Produto</button>
+    </form>
+    <ul id="listaProdutos"></ul>
+
+    <script>
+        let produtos = [];
+
+        function adicionarProduto(nome, preco) {
+            const produto = { nome, preco };
+            produtos.push(produto);
+            exibirProdutos();
+        }
+
+        function exibirProdutos() {
+            const listaProdutos = document.getElementById('listaProdutos');
+            listaProdutos.innerHTML = ''; // Limpa a lista atual
+            produtos.forEach((produto, index) => {
+                listaProdutos.innerHTML += `
+                    <li>
+                        ${produto.nome} - R$${produto.preco.toFixed(2)} 
+                        <button onclick="removerProduto(${index})">Excluir</button>
+                    </li>
+                `;
+            });
+        }
+
+        function removerProduto(index) {
+            produtos.splice(index, 1);
+            exibirProdutos();
+        }
+
+        // Função para coletar dados do formulário e adicionar produto
+        document.getElementById('formProduto').onsubmit = function(event) {
+            event.preventDefault();
+            const nome = event.target.nome.value;
+            const preco = parseFloat(event.target.preco.value);
+            adicionarProduto(nome, preco);
+            event.target.reset(); // Limpa o formulário
+        };
+    </script>
+</body>
+</html>
